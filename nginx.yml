@@ -1,26 +1,14 @@
 ---
-- name: Install nginx
-  hosts: localhost
-  become: true
-
+- name: Install and configure Nginx web server on CentOS
+  hosts: all
+  become: yes
   tasks:
-  - name: Add epel-release repo
-    yum:
-      name: epel-release
-      state: present
-
-  - name: Install nginx
-    yum:
-      name: nginx
-      state: present
-
-  - name: Insert Index Page
-    template:
-      src: /usr/share/nginx/html/index.html
-      dest: /usr/share/nginx/html/index.html
-
-  - name: Start NGiNX
-    service:
-      name: nginx
-      state: started
-
+    - name: Install Nginx
+      yum: name=nginx state=latest
+    - name: Enable access on port 9090
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^\s*listen\s+80;'
+        line: '    listen 9090;'
+    - name: Start Nginx service
+      service: name=nginx state=started
