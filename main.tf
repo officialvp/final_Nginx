@@ -68,11 +68,15 @@ resource "aws_security_group" "example" {
 }
 
 resource "aws_instance" "example" {
-  name          = "Vivek"
   ami           = "ami-0aedf6b1cb669b4c7"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.example.id
   vpc_security_group_ids = [aws_security_group.example.id]
   key_name = "ansible"
+
+  tags = {
+    Name = "HelloWorld"
+  }
 }
+
 
