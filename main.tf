@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
 resource "aws_vpc" "example" {
@@ -75,11 +75,11 @@ resource "aws_security_group" "example" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-0aedf6b1cb669b4c7"
+  ami           = "ami-033adaf0b583374d4"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.example.id
   vpc_security_group_ids = [aws_security_group.example.id]
-  key_name = "ansible"
+  key_name = "CI-CD"
 
   tags = {
     Name = "HelloWorld"
