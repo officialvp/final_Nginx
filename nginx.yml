@@ -1,14 +1,25 @@
 ---
-- name: Install and configure Nginx web server on CentOS
+- name: Setup Nginx Web Server
   hosts: localhost
-  become: yes
+  become: true
+
+
   tasks:
-    - name: Install Nginx
-      yum: name=nginx state=latest
-    - name: Enable access on port 9090
-      lineinfile:
-        path: /etc/nginx/nginx.conf
-        regexp: '^\s*listen\s+80;'
-        line: '    listen 9090;'
-    - name: Start Nginx service
-      service: name=nginx state=started
+  - name: Update the system
+    yum:
+      name: '*'
+      state: latest
+  - name: Install Nginx
+    yum:
+      name: nginx
+      state: present
+  - name: Create Nginx configuration file
+    template:
+      src: /etc/nginx/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      mode: 0644
+  - name: Start Nginx service
+    service:
+      name: nginx
+      state: started
+      enabled: true
